@@ -37,7 +37,7 @@ def draw_layers(layers, width, height, color_dict = None):
             '3': (240, 207, 142),   #yellow
             '4': (168, 200, 166),   #green
             '5': (109, 141, 138),   #blue
-            #'6': (101, 80, 87),  #brown
+            '6': (101, 80, 87),  #brown
         }
     else:
         if len(color_dict) < len(layers) + 1:
@@ -73,7 +73,7 @@ def main():
 
     # start point[left-right, top-bottom] , end point[left-right, top-bottom] , roughness, displacement, iterations
     layer_1 = midpoint_displacement([0, random.randint(0, 130)], [width, random.randrange(0, 200)], 1.1, 80, 11)
-    layer_2 = midpoint_displacement([0, random.randint(140, 200)], [width, random.randint(50, 200)], 1.2, 50, 12)
+    layer_2 = midpoint_displacement([0, random.randint(140, 200)], [width, random.randint(50, 200)], 1.2, 70, 12)
     layer_3 = midpoint_displacement([0, random.randint(250, 280)], [width, random.randint(200, 230)], 1, 120, 9)
     layer_4 = midpoint_displacement([0, random.randint(320, 350)], [width, random.randint(290, 350)], 0.9, 160, 10)
     # layer_5 = midpoint_displacement([0, random.randint(350, 400)], [width, random.randint(330, 370)], 1, 150, 9)

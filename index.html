@@ -10,7 +10,7 @@
         </style>
     </head>
     <body>
-        <canvas id="output" width="64" height="64"></canvas>
+        <canvas id="output" width="32" height="32"></canvas>
         <script>
             function cyrb128(str){
                 let h1 = 1779033703, h2 = 3144134277,
@@ -57,9 +57,9 @@
             var start = function(id){
                 output = document.getElementById("output")
                 ctx = output.getContext("2d")
-                imgData = ctx.createImageData(64, 64)
+                imgData = ctx.createImageData(32, 32)
                 // input, width, height, N, outputWidth, outputHeight, periodicInput, periodicOutput, symmetry, ground
-                model = new OverlappingModel(id.data, id.width, id.height, 2, 64, 64, true, false, 1, 0)
+                model = new OverlappingModel(id.data, id.width, id.height, 2, 32, 32, true, false, 1, 0)
                 //seed, limit
                 var success = model.generate(mulberry32(seed), 0)
                 model.graphics(imgData.data)
