@@ -1,3 +1,4 @@
+from math import cos, radians, sin
 import os
 import random
 from PIL import Image, ImageDraw
@@ -7,27 +8,6 @@ def interpolate(first_col, second_col, interval):
     det_co = [(t - f) / interval for f, t in zip(first_col, second_col)]
     for i in range(interval):
         yield [round(f + det * i) for f, det in zip(first_col, det_co)]
-
-# def gradient_col(minval, maxval, val, col_palette):
-#     max_index = len(col_palette) - 1
-#     delta = maxval - minval
-#     if delta == 0:
-#         delta = 1
-#     v = float(val - minval) / delta * max_index
-#     i1, i2 = int(v), min(int(v) + 1, max_index)
-#     (r1, g1, b1), (r2, g2, b2) = col_palette[i1], col_palette[i2]
-#     f = v - i1
-
-#     return int(r1 + f * (r2 - r1)), int(g1 + f * (g2 - g1)), int(b1 + f * (b2 - b1))
-
-# def vert_gradient(draw, height, col_func, col_palette):
-#     minval, maxval = 1, len(col_palette)
-#     delta = maxval - minval
-#     for y in range(0, height + 1):
-#         f = (y - 0) / height
-#         val = minval + f * delta
-#         color = col_func(minval, maxval, val, col_palette)
-#         draw.line([(0, y), (height, y)], fill = color)
 
 def midpoint_displacement(start, end, roughness, vertical_displacement = None, num_of_iterations = 16):
 
@@ -75,8 +55,6 @@ def draw_layers(layers, width, height, color_dict = None):
     second_col = (252, 66, 154)
     first_col = (252, 237, 112)
 
-    # vert_gradient(gradient_draw, height, gradiensecond_coll, palette)
-
     for i, color in enumerate(interpolate(first_col, second_col, height)):
         gradient_draw.line([(0, i), (width, i)], tuple(color), width = 1)
 
@@ -84,10 +62,17 @@ def draw_layers(layers, width, height, color_dict = None):
     # (0, i), (width, i) - from top to bottom
     # (i, width), (i, 0) - left to right
 
-    # landscape = Image.new('RGBA', (width, height), color_dict[str(len(color_dict) - 1)])
-    # landscape_draw = ImageDraw.Draw(landscape)
+    angle = random.randint(-180, 0)
+    radius = width / 2
 
-    gradient_draw.ellipse((50, 25, 100, 75), fill = (255, 255, 255, 255))
+    # circle radius * angle in radians then offset by
+    # radius (x coordinate of circle center)
+    # height (y coordinate of circle center)
+    sun_pos_x = radius * cos(radians(angle)) + radius
+    sun_pos_y = radius * sin(radians(angle)) + height
+
+    gradient_draw.ellipse((sun_pos_x, sun_pos_y, sun_pos_x + 50, sun_pos_y + 50), fill = (255, 255, 255, 255))
+
     final_layers = []
 
     for layer in layers:
@@ -124,6 +109,9 @@ def main():
     layer_4 = midpoint_displacement([0, random.randint(320, 350)], [width, random.randint(290, 350)], 0.9, 160, 10)
     # layer_5 = midpoint_displacement([0, random.randint(350, 400)], [width, random.randint(330, 370)], 1, 150, 9)
 
+    # landscape = draw_layers(
+    #     [], width, height
+    # )
 
     landscape = draw_layers(
         [layer_4, layer_3, layer_2, layer_1], width, height
