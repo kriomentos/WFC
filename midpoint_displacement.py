@@ -72,8 +72,8 @@ def draw_layers(layers, width, height, color_dict = None):
     gradient = Image.new('RGBA', (width, height), color = 0)
     gradient_draw = ImageDraw.Draw(gradient)
 
-    first_col = (252, 66, 154)
-    second_col = (252, 237, 112)
+    second_col = (252, 66, 154)
+    first_col = (252, 237, 112)
 
     # vert_gradient(gradient_draw, height, gradiensecond_coll, palette)
 
